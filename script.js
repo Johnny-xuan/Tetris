@@ -224,3 +224,19 @@ document.addEventListener('keydown', event => {
 playerReset();
 updateScore();
 update();
+
+document.getElementById('moveLeft').addEventListener('click', () => {
+    playerMove(-1);
+});
+document.getElementById('moveRight').addEventListener('click', () => {
+    playerMove(1);
+});
+document.getElementById('moveDown').addEventListener('click', () => {
+    playerDrop();
+});
+document.getElementById('rotate').addEventListener('click', () => {
+    playerRotate();
+});
+document.getElementById('pauseBtn').addEventListener('click', () => {
+    paused = !paused;
+});

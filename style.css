@@ -22,7 +22,56 @@ canvas {
 .next-piece {
     margin-top: 20px;
 }
-
-.controls {
     margin-top: 20px;
+}
+
+.mobile-controls {
+    display: none; /* Hidden by default, shown on smaller screens */
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+}
+
+.mobile-controls button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    flex: 1;
+    margin: 0 5px;
+}
+
+.mobile-controls button:active {
+    background-color: #45a049;
+}
+
+/* Show mobile controls on smaller screens */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .info {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .mobile-controls {
+        display: flex;
+    }
+
+    .controls {
+        display: none; /* Hide desktop controls on mobile */
+    }
 }
