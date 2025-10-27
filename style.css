@@ -1,101 +1,168 @@
 body {
-    font-family: sans-serif;
+    font-family: 'Share Tech Mono', monospace; /* 赛博朋克风格字体 */
     display: flex;
-    flex-direction: column; /* Arrange children vertically */
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-    min-height: 100vh; /* Set minimum height to full viewport height */
-    background-color: #1a1a1a; /* Dark grey background */
-    margin: 0; /* Remove default body margin */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    min-height: 100vh; /* 最小高度为视口高度 */
+    background-color: #0a0a1a; /* 极深的蓝/紫黑背景 */
+    margin: 0; /* 移除默认边距 */
+    overflow: hidden; /* 防止滚动条出现 */
+    color: #00FFFF; /* 默认霓虹青色文字 */
 }
 
+/* 整个游戏容器 */
 #game-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-    background-color: #f0f0f0; /* Original background for the game area */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    align-items: flex-start; /* 调整对齐方式，让标题和游戏板在顶部对齐 */
+    flex-wrap: wrap; /* 允许在小屏幕上换行 */
+    background-color: rgba(10, 10, 30, 0.8); /* 深色透明背景 */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), /* 霓虹青色发光 */
+                0 0 30px rgba(0, 170, 255, 0.4); /* 霓虹蓝色发光 */
+    border: 1px solid #00FFFF; /* 霓虹边框 */
+    position: relative; /* 用于定位内部元素 */
 }
 
 h1 {
     text-align: center;
-    width: 100%; /* Ensure h1 takes full width within its flex container */
-    color: #333;
+    width: 100%; /* 确保 h1 占据其 flex 容器的全部宽度 */
+    color: #00FFFF; /* 霓虹青色标题 */
+    text-shadow: 0 0 8px #00FFFF, 0 0 15px #00AAFF; /* 标题发光效果 */
+    margin-bottom: 20px;
+    font-size: 2.5em;
 }
 
+/* 游戏面板和下一个方块预览 */
 canvas {
-    border: 1px solid black;
-    background-color: #fff;
+    border: 2px solid #00FFFF; /* 霓虹青色边框 */
+    background-color: #000000; /* 纯黑背景 */
+    box-shadow: 0 0 10px #00FFFF, 0 0 20px #00AAFF; /* 霓虹发光效果 */
+    margin: 10px; /* 增加间距 */
 }
 
+/* 信息面板 (分数, 等级, 下一个方块) */
 .info {
-    margin-left: 20px;
-    color: #333;
+    margin-left: 30px; /* 增加与游戏板的间距 */
+    color: #00FFFF; /* 霓虹青色文字 */
+    background-color: rgba(0, 0, 0, 0.6); /* 深色透明背景 */
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #00FFFF; /* 霓虹边框 */
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.5); /* 柔和发光 */
+    min-width: 150px; /* 确保信息面板有足够的宽度 */
+}
+
+.info h2 {
+    color: #00FFFF; /* 霓虹青色标题 */
+    text-shadow: 0 0 5px #00FFFF;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.info span {
+    color: #FF00FF; /* 亮粉色用于分数和等级值 */
+    text-shadow: 0 0 5px #FF00FF;
+    font-weight: bold;
 }
 
 .next-piece {
-    margin-top: 20px;
+    margin-top: 25px; /* 调整间距 */
+    text-align: center;
+}
+
+.next-piece h2 {
+    margin-bottom: 10px;
 }
 
 .controls {
-    margin-top: 20px;
+    margin-top: 25px; /* 调整间距 */
+    text-align: center;
+    color: #00FFFF; /* 霓虹青色文字 */
 }
 
+.controls p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+/* 移动端控制按钮 */
 .mobile-controls {
-    display: none; /* Hidden by default, shown on smaller screens */
+    display: none; /* 默认隐藏，在小屏幕上显示 */
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 400px;
+    max-width: 450px; /* 增加最大宽度 */
     display: flex;
     justify-content: space-around;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
+    padding: 15px; /* 增加内边距 */
+    background-color: rgba(0, 0, 0, 0.8); /* 更深的透明背景 */
+    border-radius: 15px; /* 更圆润的边角 */
+    box-shadow: 0 0 10px #00FFFF, 0 0 20px #00AAFF; /* 霓虹发光 */
+    border: 1px solid #00FFFF;
+    z-index: 1000; /* 确保按钮在最上层 */
 }
 
 .mobile-controls button {
-    background-color: #4CAF50;
+    background-color: #00AAFF; /* 霓虹蓝色按钮 */
     color: white;
-    padding: 15px 20px;
+    padding: 18px 25px; /* 增加按钮大小 */
     border: none;
-    border-radius: 5px;
-    font-size: 1.2em;
+    border-radius: 8px;
+    font-size: 1.3em; /* 增大字体 */
     cursor: pointer;
     flex: 1;
-    margin: 0 5px;
+    margin: 0 8px; /* 增加按钮间距 */
+    transition: background-color 0.2s, box-shadow 0.2s; /* 添加过渡效果 */
+    box-shadow: 0 0 5px #00AAFF; /* 按钮自身发光 */
 }
 
 .mobile-controls button:active {
-    background-color: #45a049;
+    background-color: #0077CC; /* 按下时的颜色 */
+    box-shadow: 0 0 10px #00FFFF; /* 按下时更强的发光 */
 }
 
-/* Show mobile controls on smaller screens */
+/* 媒体查询：在小屏幕上显示移动控制，隐藏桌面控制 */
 @media (max-width: 768px) {
     body {
-        flex-direction: column;
+        flex-direction: column; /* 垂直排列 */
+        padding: 10px; /* 增加 body 内边距 */
     }
 
     #game-container {
-        flex-direction: column;
+        flex-direction: column; /* 垂直排列游戏容器内容 */
         margin-top: 20px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2em; /* 调整标题大小 */
     }
 
     .info {
         margin-left: 0;
-        margin-top: 20px;
+        margin-top: 25px; /* 调整间距 */
+        width: 80%; /* 调整信息面板宽度 */
+        text-align: center;
     }
 
     .mobile-controls {
-        display: flex;
+        display: flex; /* 在小屏幕上显示 */
     }
 
     .controls {
-        display: none; /* Hide desktop controls on mobile */
+        display: none; /* 在移动端隐藏桌面控制 */
     }
 }
+
+/*
+    关于方块内阴影的说明：
+    由于俄罗斯方块是直接在 HTML <canvas> 元素上通过 JavaScript 绘制的，
+    CSS 无法直接作用于单个绘制的方块。
+    要实现方块的内阴影或立体感，需要修改 script.js 中的绘图逻辑，
+    例如在绘制每个方块时，使用 canvas 的 shadowBlur 和 shadowColor 属性，
+    或者绘制多层形状来模拟阴影效果。
+*/
