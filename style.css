@@ -1,13 +1,29 @@
 body {
     font-family: sans-serif;
     display: flex;
+    flex-direction: column; /* Arrange children vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    min-height: 100vh; /* Set minimum height to full viewport height */
+    background-color: #1a1a1a; /* Dark grey background */
+    margin: 0; /* Remove default body margin */
+}
+
+#game-container {
+    display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    background-color: #f0f0f0; /* Original background for the game area */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
     text-align: center;
+    width: 100%; /* Ensure h1 takes full width within its flex container */
+    color: #333;
 }
 
 canvas {
@@ -17,11 +33,14 @@ canvas {
 
 .info {
     margin-left: 20px;
+    color: #333;
 }
 
 .next-piece {
     margin-top: 20px;
 }
+
+.controls {
     margin-top: 20px;
 }
 
@@ -60,6 +79,11 @@ canvas {
 @media (max-width: 768px) {
     body {
         flex-direction: column;
+    }
+
+    #game-container {
+        flex-direction: column;
+        margin-top: 20px;
     }
 
     .info {
