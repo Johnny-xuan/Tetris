@@ -5,7 +5,7 @@
 ## 🚀 部署链接
 
 您可以在这里玩到最新版本的游戏：
-[https://johnny-xuan.github.io/Tetris/](https://johnny-xuan.github.io/Tetris/)
+[https://web-tetris-by-johnny.netlify.app/](https://web-tetris-by-johnny.netlify.app/)
 
 ## ✨ 特性
 
