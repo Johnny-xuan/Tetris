@@ -53,6 +53,11 @@ let lastTime = 0;
 let dropCounter = 0;
 
 let paused = false;
+let gameOver = false;
+
+const gameOverOverlay = document.getElementById('gameOverOverlay');
+const finalScoreElement = document.getElementById('finalScore');
+const restartButton = document.getElementById('restartButton');
 
 function createBoard() {
     return Array.from({ length: HEIGHT }, () => Array(WIDTH).fill(0));
@@ -78,6 +83,10 @@ function drawMatrix(matrix, offset) {
 }
 
 function update(time = 0) {
+    if (gameOver) {
+        return; // Stop game loop if game is over
+    }
+
     if (!paused) {
         const deltaTime = time - lastTime;
         lastTime = time;
@@ -104,6 +113,7 @@ function playerDrop() {
 }
 
 function playerMove(dir) {
+    if (gameOver) return; // Prevent movement if game is over
     player.pos.x += dir;
     if (collide(board, player)) {
         player.pos.x -= dir;
@@ -111,6 +121,7 @@ function playerMove(dir) {
 }
 
 function playerRotate() {
+    if (gameOver) return; // Prevent rotation if game is over
     const pos = player.pos.x;
     let offset = 1;
     rotate(player.matrix);
@@ -188,13 +199,14 @@ function playerReset() {
     player.pos.y = 0;
     player.pos.x = (board[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0);
     if (collide(board, player)) {
+        // Game Over
         board.forEach(row => row.fill(0));
-        player.score = 0;
-        player.level = 1;
-        player.linesCleared = 0;
-        player.dropInterval = 1000; // Reset speed
+        gameOver = true;
+        finalScoreElement.innerText = player.score;
+        gameOverOverlay.classList.remove('hidden');
+    } else {
+        updateScore(); // Update score and level after reset
     }
-    updateScore(); // Update score and level after reset
 }
 
 function createPiece(type) {
@@ -221,6 +233,8 @@ function updateScore() {
 }
 
 document.addEventListener('keydown', event => {
+    if (gameOver || paused) return; // Prevent input if game is over or paused
+
     if (event.keyCode === 37) {
         playerMove(-1);
     } else if (event.keyCode === 39) {
@@ -234,22 +248,39 @@ document.addEventListener('keydown', event => {
     }
 });
 
+restartButton.addEventListener('click', () => {
+    gameOver = false;
+    gameOverOverlay.classList.add('hidden');
+    board.forEach(row => row.fill(0));
+    player.score = 0;
+    player.level = 1;
+    player.linesCleared = 0;
+    player.dropInterval = 1000; // Reset speed
+    playerReset(); // Spawn first piece
+    update(); // Restart game loop
+});
+
 playerReset();
 updateScore();
 update();
 
 document.getElementById('moveLeft').addEventListener('click', () => {
+    if (gameOver || paused) return;
     playerMove(-1);
 });
 document.getElementById('moveRight').addEventListener('click', () => {
+    if (gameOver || paused) return;
     playerMove(1);
 });
 document.getElementById('moveDown').addEventListener('click', () => {
+    if (gameOver || paused) return;
     playerDrop();
 });
 document.getElementById('rotate').addEventListener('click', () => {
+    if (gameOver || paused) return;
     playerRotate();
 });
 document.getElementById('pauseBtn').addEventListener('click', () => {
+    if (gameOver) return; // Cannot pause if game is over
     paused = !paused;
 });

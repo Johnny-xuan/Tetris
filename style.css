@@ -158,6 +158,68 @@ canvas {
     }
 }
 
+/* Game Over Overlay Styles */
+#gameOverOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* 半透明深色背景 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* 确保在最上层 */
+}
+
+.gameOverContent {
+    text-align: center;
+    background-color: rgba(10, 10, 30, 0.95);
+    padding: 40px 60px;
+    border-radius: 15px;
+    border: 2px solid #FF00FF; /* 亮粉色边框 */
+    box-shadow: 0 0 20px #FF00FF, 0 0 40px #FF00FF; /* 亮粉色发光 */
+    color: #00FFFF;
+}
+
+.gameOverContent h2 {
+    font-size: 3em;
+    color: #FF00FF; /* 亮粉色标题 */
+    text-shadow: 0 0 10px #FF00FF, 0 0 20px #FF00FF;
+    margin-bottom: 20px;
+}
+
+.gameOverContent p {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+}
+
+.gameOverContent span {
+    color: #00FFFF;
+    font-weight: bold;
+}
+
+#restartButton {
+    background-color: #00AAFF; /* 霓虹蓝色按钮 */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 8px #00AAFF;
+}
+
+#restartButton:active {
+    background-color: #0077CC;
+    box-shadow: 0 0 15px #00FFFF;
+}
+
+.hidden {
+    display: none !important;
+}
+
 /*
     关于方块内阴影的说明：
     由于俄罗斯方块是直接在 HTML <canvas> 元素上通过 JavaScript 绘制的，
