@@ -45,6 +45,7 @@ let player = {
     matrix: null,
     score: 0,
     level: 1,
+    linesCleared: 0,
     dropInterval: 1000,
 };
 
@@ -169,8 +170,16 @@ function boardSweep() {
         ++y;
 
         player.score += rowCount * 10;
+        player.linesCleared++;
         rowCount *= 2;
+
+        // Check for level up
+        if (player.linesCleared % 10 === 0 && player.level < 3) { // Level up every 10 lines, max 3 levels
+            player.level++;
+            player.dropInterval -= 150; // Decrease drop interval (increase speed)
+        }
     }
+    updateScore(); // Update score and level after sweep
 }
 
 function playerReset() {
@@ -181,7 +190,11 @@ function playerReset() {
     if (collide(board, player)) {
         board.forEach(row => row.fill(0));
         player.score = 0;
+        player.level = 1;
+        player.linesCleared = 0;
+        player.dropInterval = 1000; // Reset speed
     }
+    updateScore(); // Update score and level after reset
 }
 
 function createPiece(type) {
