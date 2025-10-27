@@ -186,19 +186,19 @@ function playerReset() {
 
 function createPiece(type) {
     if (type === 'I') {
-        return [[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]];
+        return [[0, 'I', 0, 0], [0, 'I', 0, 0], [0, 'I', 0, 0], [0, 'I', 0, 0]];
     } else if (type === 'L') {
-        return [[0, 2, 0], [0, 2, 0], [0, 2, 2]];
+        return [[0, 'L', 0], [0, 'L', 0], [0, 'L', 'L']];
     } else if (type === 'J') {
-        return [[0, 3, 0], [0, 3, 0], [3, 3, 0]];
+        return [[0, 'J', 0], [0, 'J', 0], ['J', 'J', 0]];
     } else if (type === 'O') {
-        return [[4, 4], [4, 4]];
+        return [['O', 'O'], ['O', 'O']];
     } else if (type === 'Z') {
-        return [[5, 5, 0], [0, 5, 5], [0, 0, 0]];
+        return [['Z', 'Z', 0], [0, 'Z', 'Z'], [0, 0, 0]];
     } else if (type === 'S') {
-        return [[0, 6, 6], [6, 6, 0], [0, 0, 0]];
+        return [[0, 'S', 'S'], ['S', 'S', 0], [0, 0, 0]];
     } else if (type === 'T') {
-        return [[0, 7, 0], [7, 7, 7], [0, 0, 0]];
+        return [[0, 'T', 0], ['T', 'T', 'T'], [0, 0, 0]];
     }
 }
 
