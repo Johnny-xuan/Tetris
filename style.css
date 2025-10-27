@@ -94,14 +94,14 @@ canvas {
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
-    max-width: 500px; /* 增加最大宽度 */
+    width: 95%; /* 进一步增加宽度 */
+    max-width: 600px; /* 增加最大宽度 */
     display: flex;
     justify-content: space-around;
-    padding: 20px; /* 增加内边距 */
+    padding: 25px; /* 进一步增加内边距 */
     background-color: rgba(0, 0, 0, 0.8); /* 更深的透明背景 */
-    border-radius: 15px; /* 更圆润的边角 */
-    box-shadow: 0 0 10px #00FFFF, 0 0 20px #00AAFF; /* 霓虹发光 */
+    border-radius: 18px; /* 更圆润的边角 */
+    box-shadow: 0 0 12px #00FFFF, 0 0 25px #00AAFF; /* 霓虹发光 */
     border: 1px solid #00FFFF;
     z-index: 1000; /* 确保按钮在最上层 */
 }
@@ -109,20 +109,20 @@ canvas {
 .mobile-controls button {
     background-color: #00AAFF; /* 霓虹蓝色按钮 */
     color: white;
-    padding: 20px 30px; /* 增加按钮大小 */
+    padding: 25px 35px; /* 进一步增加按钮大小 */
     border: none;
-    border-radius: 10px;
-    font-size: 1.5em; /* 增大字体 */
+    border-radius: 12px;
+    font-size: 1.8em; /* 进一步增大字体 */
     cursor: pointer;
     flex: 1;
-    margin: 0 10px; /* 增加按钮间距 */
+    margin: 0 12px; /* 进一步增加按钮间距 */
     transition: background-color 0.2s, box-shadow 0.2s; /* 添加过渡效果 */
-    box-shadow: 0 0 8px #00AAFF; /* 按钮自身发光 */
+    box-shadow: 0 0 10px #00AAFF; /* 按钮自身发光 */
 }
 
 .mobile-controls button:active {
     background-color: #0077CC; /* 按下时的颜色 */
-    box-shadow: 0 0 15px #00FFFF; /* 按下时更强的发光 */
+    box-shadow: 0 0 18px #00FFFF; /* 按下时更强的发光 */
 }
 
 /* 媒体查询：在小屏幕上显示移动控制，隐藏桌面控制 */
