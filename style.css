@@ -1,0 +1,28 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    text-align: center;
+}
+
+canvas {
+    border: 1px solid black;
+    background-color: #fff;
+}
+
+.info {
+    margin-left: 20px;
+}
+
+.next-piece {
+    margin-top: 20px;
+}
+
+.controls {
+    margin-top: 20px;
+}
