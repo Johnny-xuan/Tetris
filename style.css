@@ -1,13 +1,17 @@
 /* ===== CSS变量（主题系统） ===== */
 :root {
-    --bg-color: #0a0a1a;
+    --bg-gradient-1: #1a0a2e;
+    --bg-gradient-2: #16213e;
+    --bg-gradient-3: #0f3460;
     --primary-color: #00FFFF;
     --secondary-color: #FF00FF;
     --accent-color: #00AAFF;
     --text-color: #00FFFF;
     --score-value-color: #FF00FF;
     --combo-value-color: #FFD700;
-    --box-shadow: 0 0 15px rgba(0, 255, 255, 0.6), 0 0 30px rgba(0, 170, 255, 0.4);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 255, 255, 0.3);
 }
 
 /* ===== 全局样式 ===== */
@@ -23,34 +27,214 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: var(--bg-color);
     color: var(--text-color);
     overflow: hidden;
-    transition: background-color 0.5s ease;
+    position: relative;
 }
 
-/* ===== 游戏容器 ===== */
+/* ===== 动态渐变背景 ===== */
+.animated-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        var(--bg-gradient-1) 0%,
+        var(--bg-gradient-2) 50%,
+        var(--bg-gradient-3) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientFlow 15s ease infinite;
+    z-index: -2;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 添加背景光晕效果 */
+.animated-background::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle,
+        var(--primary-color) 0%,
+        transparent 70%
+    );
+    opacity: 0.1;
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ===== 主题切换器 ===== */
+.theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 10px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    animation: slideInRight 0.6s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.theme-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: width 0.3s, height 0.3s;
+}
+
+.theme-btn:hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+.theme-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px currentColor;
+}
+
+.theme-btn.active {
+    transform: scale(1.2);
+    box-shadow: 0 0 25px currentColor, inset 0 0 10px currentColor;
+    border-width: 3px;
+}
+
+/* 主题按钮颜色 */
+.theme-btn[data-theme="cyberpunk"] {
+    background: linear-gradient(135deg, #00FFFF, #FF00FF);
+}
+
+.theme-btn[data-theme="retro"] {
+    background: linear-gradient(135deg, #0f380f, #9bbc0f);
+}
+
+.theme-btn[data-theme="neon"] {
+    background: linear-gradient(135deg, #FF1493, #00FF00);
+}
+
+.theme-btn[data-theme="dark"] {
+    background: linear-gradient(135deg, #000000, #9D4EDD);
+}
+
+.theme-btn[data-theme="candy"] {
+    background: linear-gradient(135deg, #FF6B9D, #FEC260);
+}
+
+/* ===== 游戏容器 - 玻璃拟态 ===== */
 #game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(10, 10, 30, 0.8);
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: var(--box-shadow);
-    border: 1px solid var(--primary-color);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow:
+        0 8px 32px 0 rgba(0, 0, 0, 0.37),
+        0 0 60px var(--shadow-color),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
     transition: all 0.5s ease;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ===== 标题 ===== */
 h1 {
     text-align: center;
     color: var(--primary-color);
-    text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--accent-color);
-    margin-bottom: 20px;
-    font-size: 2.5em;
-    letter-spacing: 5px;
+    text-shadow:
+        0 0 10px var(--primary-color),
+        0 0 20px var(--accent-color),
+        0 0 40px var(--accent-color);
+    margin-bottom: 25px;
+    font-size: 2.8em;
+    letter-spacing: 8px;
     transition: all 0.5s ease;
+    font-weight: bold;
+    animation: titlePulse 3s ease-in-out infinite;
+}
+
+.version {
+    font-size: 0.4em;
+    color: var(--secondary-color);
+    text-shadow: 0 0 10px var(--secondary-color);
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+
+@keyframes titlePulse {
+    0%, 100% {
+        text-shadow:
+            0 0 10px var(--primary-color),
+            0 0 20px var(--accent-color),
+            0 0 40px var(--accent-color);
+    }
+    50% {
+        text-shadow:
+            0 0 20px var(--primary-color),
+            0 0 30px var(--accent-color),
+            0 0 60px var(--accent-color);
+    }
 }
 
 /* ===== 游戏区域布局 ===== */
@@ -58,10 +242,10 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 20px;
+    gap: 25px;
 }
 
-/* ===== 侧边面板 ===== */
+/* ===== 侧边面板 - 玻璃卡片 ===== */
 .side-panel {
     display: flex;
     flex-direction: column;
@@ -69,38 +253,120 @@ h1 {
 }
 
 .panel-section {
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #00FFFF;
-    box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
-    min-width: 120px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 18px;
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 0 30px var(--shadow-color),
+        inset 0 0 15px rgba(255, 255, 255, 0.03);
+    min-width: 140px;
+    transition: all 0.3s ease;
+    animation: float 6s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 浮动动画 - 每个卡片延迟不同 */
+.left-panel .panel-section {
+    animation-delay: 0s;
+}
+
+.right-panel .panel-section:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.right-panel .panel-section:nth-child(2) {
+    animation-delay: 1s;
+}
+
+.right-panel .panel-section:nth-child(3) {
+    animation-delay: 1.5s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* 悬停效果 */
+.panel-section:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        0 0 50px var(--shadow-color),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
+    border-color: var(--primary-color);
+}
+
+/* 卡片光晕效果 */
+.panel-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        var(--primary-color),
+        transparent
+    );
+    opacity: 0;
+    transform: rotate(45deg);
+    transition: opacity 0.5s;
+}
+
+.panel-section:hover::before {
+    opacity: 0.1;
 }
 
 .panel-section h3 {
     color: var(--primary-color);
-    text-shadow: 0 0 5px var(--primary-color);
-    margin-bottom: 10px;
-    font-size: 1em;
+    text-shadow: 0 0 8px var(--primary-color);
+    margin-bottom: 12px;
+    font-size: 1.1em;
     text-align: center;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     transition: all 0.5s ease;
+    font-weight: bold;
 }
 
 .help-text {
     text-align: center;
-    font-size: 0.7em;
-    color: #00AAFF;
-    margin-top: 5px;
+    font-size: 0.75em;
+    color: var(--accent-color);
+    margin-top: 8px;
+    opacity: 0.7;
 }
 
 /* ===== Canvas样式 ===== */
 canvas {
-    border: 2px solid #00FFFF;
-    background-color: #000000;
-    box-shadow: 0 0 10px #00FFFF, 0 0 20px #00AAFF;
+    border: 2px solid var(--primary-color);
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow:
+        0 0 20px var(--primary-color),
+        0 0 40px var(--accent-color),
+        inset 0 0 30px rgba(0, 0, 0, 0.8);
     display: block;
     margin: 0 auto;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+canvas:hover {
+    box-shadow:
+        0 0 30px var(--primary-color),
+        0 0 60px var(--accent-color),
+        inset 0 0 30px rgba(0, 0, 0, 0.8);
 }
 
 #tetris {
@@ -119,41 +385,77 @@ canvas {
 
 .stat-value {
     color: var(--score-value-color);
-    text-shadow: 0 0 5px var(--score-value-color);
+    text-shadow:
+        0 0 10px var(--score-value-color),
+        0 0 20px var(--score-value-color);
     font-weight: bold;
-    font-size: 1.5em;
-    margin-bottom: 15px;
+    font-size: 1.8em;
+    margin-bottom: 18px;
     transition: all 0.5s ease;
+    animation: numberGlow 2s ease-in-out infinite;
+}
+
+@keyframes numberGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 10px var(--score-value-color),
+            0 0 20px var(--score-value-color);
+    }
+    50% {
+        text-shadow:
+            0 0 20px var(--score-value-color),
+            0 0 40px var(--score-value-color);
+    }
 }
 
 .combo-section {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(0, 255, 255, 0.3);
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .combo-value {
     color: var(--combo-value-color);
-    text-shadow: 0 0 10px var(--combo-value-color);
-    font-size: 2em;
-    animation: pulse 0.5s ease-in-out infinite alternate;
-    transition: color 0.5s ease;
+    text-shadow:
+        0 0 15px var(--combo-value-color),
+        0 0 30px var(--combo-value-color);
+    font-size: 2.2em;
+    animation: comboPulse 0.6s ease-in-out infinite alternate;
 }
 
-@keyframes pulse {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
+@keyframes comboPulse {
+    from {
+        transform: scale(1);
+        text-shadow:
+            0 0 15px var(--combo-value-color),
+            0 0 30px var(--combo-value-color);
+    }
+    to {
+        transform: scale(1.15);
+        text-shadow:
+            0 0 25px var(--combo-value-color),
+            0 0 50px var(--combo-value-color);
+    }
 }
 
 /* ===== 控制说明 ===== */
 .controls {
-    font-size: 0.8em;
+    font-size: 0.85em;
     text-align: left;
 }
 
 .controls p {
-    margin: 5px 0;
-    color: #00AAFF;
+    margin: 8px 0;
+    color: var(--accent-color);
+    transition: all 0.2s ease;
+    padding: 3px 5px;
+    border-radius: 4px;
+}
+
+.controls p:hover {
+    color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(5px);
 }
 
 /* ===== 移动端控制 ===== */
@@ -165,19 +467,23 @@ canvas {
     transform: translateX(-50%);
     width: 90%;
     max-width: 500px;
-    background-color: rgba(0, 0, 0, 0.9);
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0 0 15px #00FFFF, 0 0 25px #00AAFF;
-    border: 1px solid #00FFFF;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 40px var(--shadow-color);
+    border: 1px solid var(--glass-border);
     z-index: 1000;
 }
 
 .control-row {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .control-row:last-child {
@@ -185,23 +491,45 @@ canvas {
 }
 
 .control-btn {
-    background-color: #00AAFF;
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
     color: white;
-    padding: 15px 20px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.2em;
+    padding: 16px 22px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    font-size: 1.3em;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 0 8px #00AAFF;
+    transition: all 0.2s ease;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        0 0 20px var(--shadow-color);
     flex: 1;
     min-width: 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.control-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.control-btn:active::before {
+    width: 300%;
+    height: 300%;
 }
 
 .control-btn.small {
-    font-size: 0.9em;
-    padding: 15px 10px;
+    font-size: 1em;
+    padding: 16px 12px;
 }
 
 .control-btn.wide {
@@ -209,9 +537,10 @@ canvas {
 }
 
 .control-btn:active {
-    background-color: #0077CC;
-    box-shadow: 0 0 15px #00FFFF;
     transform: scale(0.95);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.4),
+        0 0 30px var(--primary-color);
 }
 
 /* ===== 游戏结束遮罩 ===== */
@@ -221,7 +550,9 @@ canvas {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -230,74 +561,139 @@ canvas {
 
 .gameOverContent {
     text-align: center;
-    background-color: rgba(10, 10, 30, 0.95);
-    padding: 50px 70px;
-    border-radius: 15px;
-    border: 2px solid #FF00FF;
-    box-shadow: 0 0 30px #FF00FF, 0 0 50px #FF00FF;
-    color: #00FFFF;
-    animation: slideIn 0.5s ease-out;
+    background: var(--glass-bg);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    padding: 60px 80px;
+    border-radius: 25px;
+    border: 2px solid var(--glass-border);
+    box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        0 0 80px var(--secondary-color),
+        inset 0 0 30px rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    animation: gameOverSlide 0.6s ease-out;
 }
 
-@keyframes slideIn {
+@keyframes gameOverSlide {
     from {
         opacity: 0;
-        transform: translateY(-50px);
+        transform: translateY(-100px) scale(0.8);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
 .gameOverContent h2 {
-    font-size: 3.5em;
-    color: #FF00FF;
-    text-shadow: 0 0 15px #FF00FF, 0 0 30px #FF00FF;
-    margin-bottom: 20px;
-    letter-spacing: 5px;
+    font-size: 4em;
+    color: var(--secondary-color);
+    text-shadow:
+        0 0 20px var(--secondary-color),
+        0 0 40px var(--secondary-color),
+        0 0 60px var(--secondary-color);
+    margin-bottom: 25px;
+    letter-spacing: 8px;
+    animation: gameOverPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes gameOverPulse {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow:
+            0 0 20px var(--secondary-color),
+            0 0 40px var(--secondary-color);
+    }
+    50% {
+        transform: scale(1.05);
+        text-shadow:
+            0 0 30px var(--secondary-color),
+            0 0 60px var(--secondary-color),
+            0 0 90px var(--secondary-color);
+    }
 }
 
 .gameOverContent p {
-    font-size: 1.5em;
-    margin-bottom: 30px;
+    font-size: 1.6em;
+    margin-bottom: 35px;
 }
 
 .gameOverContent span {
-    color: #FFD700;
+    color: var(--combo-value-color);
     font-weight: bold;
-    font-size: 1.3em;
-    text-shadow: 0 0 10px #FFD700;
+    font-size: 1.4em;
+    text-shadow:
+        0 0 15px var(--combo-value-color),
+        0 0 30px var(--combo-value-color);
 }
 
 #restartButton {
-    background-color: #00AAFF;
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
     color: white;
-    padding: 15px 40px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.3em;
+    padding: 18px 50px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    font-size: 1.4em;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 0 10px #00AAFF;
-    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 0 30px var(--shadow-color);
+    letter-spacing: 3px;
+    position: relative;
+    overflow: hidden;
+}
+
+#restartButton::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+}
+
+#restartButton:hover::before {
+    width: 300%;
+    height: 300%;
 }
 
 #restartButton:hover {
-    background-color: #00CCFF;
-    box-shadow: 0 0 20px #00FFFF;
-    transform: translateY(-2px);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        0 0 50px var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 #restartButton:active {
-    background-color: #0077CC;
-    transform: translateY(0);
+    transform: translateY(-1px) scale(1.02);
 }
 
 /* ===== 隐藏类 ===== */
 .hidden {
     display: none !important;
+}
+
+/* ===== 响应式设计 - 平板 ===== */
+@media (max-width: 1024px) {
+    .theme-switcher {
+        top: 10px;
+        right: 10px;
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .theme-btn {
+        width: 35px;
+        height: 35px;
+    }
 }
 
 /* ===== 响应式设计 - 移动端 ===== */
@@ -306,14 +702,33 @@ canvas {
         padding: 10px;
     }
 
+    .theme-switcher {
+        top: 10px;
+        right: 10px;
+        flex-wrap: wrap;
+        max-width: 200px;
+        padding: 8px;
+    }
+
+    .theme-btn {
+        width: 32px;
+        height: 32px;
+    }
+
     #game-container {
-        padding: 15px;
+        padding: 20px;
         width: 100%;
     }
 
     h1 {
-        font-size: 1.8em;
-        margin-bottom: 15px;
+        font-size: 2em;
+        margin-bottom: 18px;
+        letter-spacing: 3px;
+    }
+
+    .version {
+        display: block;
+        margin-top: 5px;
     }
 
     .game-area {
@@ -326,6 +741,7 @@ canvas {
         flex-direction: row;
         width: 100%;
         justify-content: space-around;
+        flex-wrap: wrap;
     }
 
     .left-panel {
@@ -342,7 +758,13 @@ canvas {
 
     .panel-section {
         min-width: auto;
-        padding: 10px;
+        padding: 12px;
+        flex: 1;
+        min-width: 120px;
+    }
+
+    .panel-section:hover {
+        transform: translateY(-3px) scale(1.01);
     }
 
     .controls {
@@ -364,23 +786,23 @@ canvas {
     }
 
     .gameOverContent {
-        padding: 30px 40px;
+        padding: 40px 50px;
         max-width: 90%;
     }
 
     .gameOverContent h2 {
-        font-size: 2.5em;
+        font-size: 3em;
     }
 
     .gameOverContent p {
-        font-size: 1.2em;
+        font-size: 1.3em;
     }
 }
 
 /* ===== 小屏幕优化 ===== */
 @media (max-width: 480px) {
     h1 {
-        font-size: 1.5em;
+        font-size: 1.6em;
         letter-spacing: 2px;
     }
 
@@ -395,15 +817,24 @@ canvas {
     }
 
     .stat-value {
-        font-size: 1.2em;
+        font-size: 1.4em;
     }
 
     .panel-section h3 {
-        font-size: 0.9em;
+        font-size: 0.95em;
     }
 
     .control-btn {
-        padding: 12px 15px;
-        font-size: 1em;
+        padding: 14px 18px;
+        font-size: 1.1em;
+    }
+
+    .gameOverContent {
+        padding: 30px 35px;
+    }
+
+    .gameOverContent h2 {
+        font-size: 2.2em;
+        letter-spacing: 4px;
     }
 }
