@@ -2,9 +2,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-cyan.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-2.0-ff00ff.svg)]()
-[![Status](https://img.shields.io/badge/status-商业化版本-00ff00.svg)]()
+[![Status](https://img.shields.io/badge/status-Free%20%26%20Open%20Source-00ff00.svg)]()
 
-这是一个完全重构的**商业化标准**俄罗斯方块游戏，融合了赛博朋克主题、现代游戏机制和丰富的视觉/音效系统。
+这是一个完全重构的**免费开源**俄罗斯方块游戏 Version 2.0，融合了赛博朋克主题、现代游戏机制和丰富的视觉/音效系统。
 
 ## 在线体验
 
@@ -144,7 +144,7 @@ python3 -m http.server 8000
 
 ## 版本历史
 
-### v2.0 - 商业化升级 (2025-11-15)
+### v2.0 - 重大升级 (2025-11-15)
 - 全面重构代码架构（模块化）
 - 新增Hard Drop、Ghost Piece、Hold功能
 - 完整音效系统（11种音效）
