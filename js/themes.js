@@ -2,6 +2,11 @@
 export const THEMES = {
     cyberpunk: {
         name: '赛博朋克',
+        gradients: {
+            gradient1: '#1a0a2e',
+            gradient2: '#16213e',
+            gradient3: '#0f3460'
+        },
         colors: {
             background: '#0a0a1a',
             primary: '#00FFFF',
@@ -10,6 +15,9 @@ export const THEMES = {
             text: '#00FFFF',
             scoreValue: '#FF00FF',
             comboValue: '#FFD700',
+            glassBg: 'rgba(255, 255, 255, 0.05)',
+            glassBorder: 'rgba(255, 255, 255, 0.1)',
+            shadowColor: 'rgba(0, 255, 255, 0.3)',
             blocks: {
                 'I': '#00FFFF',
                 'O': '#FFFF00',
@@ -24,6 +32,11 @@ export const THEMES = {
     },
     retro: {
         name: '经典复古',
+        gradients: {
+            gradient1: '#0f380f',
+            gradient2: '#306230',
+            gradient3: '#8bac0f'
+        },
         colors: {
             background: '#8bac0f',
             primary: '#306230',
@@ -32,6 +45,9 @@ export const THEMES = {
             text: '#0f380f',
             scoreValue: '#306230',
             comboValue: '#0f380f',
+            glassBg: 'rgba(15, 56, 15, 0.3)',
+            glassBorder: 'rgba(155, 188, 15, 0.4)',
+            shadowColor: 'rgba(48, 98, 48, 0.5)',
             blocks: {
                 'I': '#0f380f',
                 'O': '#0f380f',
@@ -46,6 +62,11 @@ export const THEMES = {
     },
     neon: {
         name: '未来霓虹',
+        gradients: {
+            gradient1: '#1a001a',
+            gradient2: '#2d1b2d',
+            gradient3: '#4a1a4a'
+        },
         colors: {
             background: '#1a001a',
             primary: '#FF6EC7',
@@ -54,6 +75,9 @@ export const THEMES = {
             text: '#FF6EC7',
             scoreValue: '#39FF14',
             comboValue: '#FFFF00',
+            glassBg: 'rgba(255, 110, 199, 0.08)',
+            glassBorder: 'rgba(255, 110, 199, 0.2)',
+            shadowColor: 'rgba(255, 110, 199, 0.4)',
             blocks: {
                 'I': '#FF00FF',
                 'O': '#FFFF00',
@@ -68,6 +92,11 @@ export const THEMES = {
     },
     dark: {
         name: '暗黑模式',
+        gradients: {
+            gradient1: '#000000',
+            gradient2: '#1a1a1a',
+            gradient3: '#2d1a3d'
+        },
         colors: {
             background: '#121212',
             primary: '#FFFFFF',
@@ -76,6 +105,9 @@ export const THEMES = {
             text: '#FFFFFF',
             scoreValue: '#BB86FC',
             comboValue: '#03DAC6',
+            glassBg: 'rgba(255, 255, 255, 0.03)',
+            glassBorder: 'rgba(187, 134, 252, 0.2)',
+            shadowColor: 'rgba(187, 134, 252, 0.3)',
             blocks: {
                 'I': '#6200EE',
                 'O': '#BB86FC',
@@ -90,6 +122,11 @@ export const THEMES = {
     },
     candy: {
         name: '彩虹糖果',
+        gradients: {
+            gradient1: '#FFE5F0',
+            gradient2: '#FFB3D9',
+            gradient3: '#FF8EC3'
+        },
         colors: {
             background: '#FFF5E1',
             primary: '#FF69B4',
@@ -98,6 +135,9 @@ export const THEMES = {
             text: '#FF1493',
             scoreValue: '#FF69B4',
             comboValue: '#FFD700',
+            glassBg: 'rgba(255, 255, 255, 0.4)',
+            glassBorder: 'rgba(255, 105, 180, 0.3)',
+            shadowColor: 'rgba(255, 105, 180, 0.4)',
             blocks: {
                 'I': '#FF1493',
                 'O': '#FFD700',
@@ -115,6 +155,34 @@ export const THEMES = {
 export class ThemeManager {
     constructor() {
         this.currentTheme = 'cyberpunk';
+        this.initThemeSwitcher();
+    }
+
+    // 初始化主题切换器
+    initThemeSwitcher() {
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        themeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const themeName = btn.getAttribute('data-theme');
+                this.applyTheme(themeName);
+                this.updateActiveButton(themeName);
+            });
+        });
+
+        // 设置初始激活状态
+        this.updateActiveButton(this.currentTheme);
+    }
+
+    // 更新激活按钮状态
+    updateActiveButton(themeName) {
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        themeButtons.forEach(btn => {
+            if (btn.getAttribute('data-theme') === themeName) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
     }
 
     // 应用主题
@@ -128,7 +196,12 @@ export class ThemeManager {
         const theme = THEMES[themeName];
         const root = document.documentElement;
 
-        // 应用CSS变量
+        // 应用CSS变量 - 背景渐变
+        root.style.setProperty('--bg-gradient-1', theme.gradients.gradient1);
+        root.style.setProperty('--bg-gradient-2', theme.gradients.gradient2);
+        root.style.setProperty('--bg-gradient-3', theme.gradients.gradient3);
+
+        // 应用CSS变量 - 颜色
         root.style.setProperty('--bg-color', theme.colors.background);
         root.style.setProperty('--primary-color', theme.colors.primary);
         root.style.setProperty('--secondary-color', theme.colors.secondary);
@@ -136,10 +209,13 @@ export class ThemeManager {
         root.style.setProperty('--text-color', theme.colors.text);
         root.style.setProperty('--score-value-color', theme.colors.scoreValue);
         root.style.setProperty('--combo-value-color', theme.colors.comboValue);
-        root.style.setProperty('--box-shadow', theme.shadows);
 
-        // 更新body背景色
-        document.body.style.backgroundColor = theme.colors.background;
+        // 应用玻璃拟态相关变量
+        root.style.setProperty('--glass-bg', theme.colors.glassBg);
+        root.style.setProperty('--glass-border', theme.colors.glassBorder);
+        root.style.setProperty('--shadow-color', theme.colors.shadowColor);
+
+        root.style.setProperty('--box-shadow', theme.shadows);
     }
 
     // 获取当前主题的方块颜色
