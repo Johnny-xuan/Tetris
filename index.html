@@ -10,6 +10,9 @@
     <!-- 动态背景 -->
     <div class="animated-background"></div>
 
+    <!-- 帮助按钮 -->
+    <button class="help-btn" id="helpBtn" title="游戏帮助">?</button>
+
     <!-- 主题切换器 -->
     <div class="theme-switcher">
         <button class="theme-btn" data-theme="cyberpunk" title="Cyberpunk"></button>
@@ -17,6 +20,75 @@
         <button class="theme-btn" data-theme="neon" title="Neon"></button>
         <button class="theme-btn" data-theme="dark" title="Dark"></button>
         <button class="theme-btn" data-theme="candy" title="Candy"></button>
+    </div>
+
+    <!-- 帮助弹窗 -->
+    <div id="helpModal" class="modal hidden">
+        <div class="modal-content">
+            <button class="modal-close" id="closeHelp">&times;</button>
+            <h2>游戏帮助</h2>
+
+            <div class="help-section">
+                <h3>操作说明</h3>
+                <div class="controls-grid">
+                    <div class="control-item">
+                        <span class="key">← →</span>
+                        <span class="desc">左右移动方块</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">↑</span>
+                        <span class="desc">旋转方块</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">↓</span>
+                        <span class="desc">软降（加速下落）</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">SPACE</span>
+                        <span class="desc">硬降（一键落底）</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">C</span>
+                        <span class="desc">保留方块（Hold）</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">P / ESC</span>
+                        <span class="desc">暂停/继续</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>游戏规则</h3>
+                <ul class="rules-list">
+                    <li><strong>目标：</strong>通过移动和旋转下落的方块，填满横行来消除</li>
+                    <li><strong>消行计分：</strong>
+                        <ul>
+                            <li>消除1行 (Single): 100分 × 关卡</li>
+                            <li>消除2行 (Double): 300分 × 关卡</li>
+                            <li>消除3行 (Triple): 500分 × 关卡</li>
+                            <li>消除4行 (Tetris): 800分 × 关卡</li>
+                        </ul>
+                    </li>
+                    <li><strong>关卡提升：</strong>每消除10行提升一级，速度加快</li>
+                    <li><strong>Combo奖励：</strong>连续消行可获得额外分数 (50分 × 连击数 × 关卡)</li>
+                    <li><strong>Hold功能：</strong>按C键保留当前方块，每次方块落地后才能再次使用</li>
+                    <li><strong>幽灵方块：</strong>半透明预览显示方块落地位置</li>
+                    <li><strong>游戏结束：</strong>方块堆叠到顶部时游戏结束</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>游戏技巧</h3>
+                <ul class="tips-list">
+                    <li>使用Hold功能保存长条方块（I形），用于消除4行</li>
+                    <li>利用幽灵方块提前规划方块放置位置</li>
+                    <li>尽量保持底部平整，避免留下空洞</li>
+                    <li>连续消行可以获得Combo奖励，得分更高</li>
+                    <li>使用硬降（SPACE）可以快速放置方块并获得额外分数</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div id="game-container">
@@ -58,16 +130,6 @@
                         <h3>COMBO</h3>
                         <p class="stat-value combo-value" id="combo"></p>
                     </div>
-                </div>
-
-                <div class="panel-section controls">
-                    <h3>CONTROLS</h3>
-                    <p>← → : Move</p>
-                    <p>↑ : Rotate</p>
-                    <p>↓ : Soft Drop</p>
-                    <p>SPACE : Hard Drop</p>
-                    <p>C : Hold</p>
-                    <p>P : Pause</p>
                 </div>
             </div>
         </div>

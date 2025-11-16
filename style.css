@@ -78,6 +78,54 @@ body {
     to { transform: rotate(360deg); }
 }
 
+/* ===== 帮助按钮 ===== */
+.help-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        0 0 20px var(--shadow-color);
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.help-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow:
+        0 6px 25px rgba(0, 0, 0, 0.4),
+        0 0 35px var(--primary-color);
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.help-btn:active {
+    transform: scale(0.95);
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 /* ===== 主题切换器 ===== */
 .theme-switcher {
     position: fixed;
@@ -676,6 +724,196 @@ canvas:hover {
     transform: translateY(-1px) scale(1.02);
 }
 
+/* ===== 帮助模态框 ===== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: var(--glass-bg);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 2px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        0 0 80px var(--shadow-color),
+        inset 0 0 30px rgba(255, 255, 255, 0.05);
+    position: relative;
+    animation: slideInDown 0.4s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    text-shadow: 0 0 15px var(--primary-color);
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: 3px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
+    opacity: 0.7;
+}
+
+.modal-close:hover {
+    color: var(--secondary-color);
+    transform: rotate(90deg) scale(1.2);
+    opacity: 1;
+    text-shadow: 0 0 20px var(--secondary-color);
+}
+
+.help-section {
+    margin-bottom: 30px;
+}
+
+.help-section h3 {
+    color: var(--secondary-color);
+    text-shadow: 0 0 10px var(--secondary-color);
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--glass-border);
+    padding-bottom: 10px;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+}
+
+.control-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.control-item .key {
+    background: var(--primary-color);
+    color: #000;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9em;
+    min-width: 70px;
+    text-align: center;
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.control-item .desc {
+    color: var(--text-color);
+    font-size: 0.95em;
+}
+
+.rules-list,
+.tips-list {
+    color: var(--text-color);
+    padding-left: 20px;
+    line-height: 1.8;
+}
+
+.rules-list li,
+.tips-list li {
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.rules-list li::marker {
+    color: var(--accent-color);
+}
+
+.tips-list li::marker {
+    color: var(--combo-value-color);
+}
+
+.rules-list strong {
+    color: var(--primary-color);
+}
+
+.rules-list ul {
+    margin-top: 8px;
+    padding-left: 20px;
+}
+
+.rules-list ul li {
+    margin-bottom: 5px;
+    font-size: 0.95em;
+}
+
+/* 模态框滚动条样式 */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
 /* ===== 隐藏类 ===== */
 .hidden {
     display: none !important;
@@ -683,6 +921,12 @@ canvas:hover {
 
 /* ===== 响应式设计 - 平板 ===== */
 @media (max-width: 1024px) {
+    .help-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 24px;
+    }
+
     .theme-switcher {
         top: 10px;
         right: 10px;
@@ -693,6 +937,15 @@ canvas:hover {
     .theme-btn {
         width: 35px;
         height: 35px;
+    }
+
+    .modal-content {
+        max-width: 90%;
+        padding: 30px 25px;
+    }
+
+    .controls-grid {
+        grid-template-columns: 1fr;
     }
 }
 

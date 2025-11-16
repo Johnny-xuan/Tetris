@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 开始游戏
     game.start();
 
+    // 初始化帮助模态框
+    initHelpModal();
+
     // 显示统计信息
     const stats = storageManager.getStats();
     console.log('=== CYBER BLOCKS ===');
@@ -50,3 +53,38 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Best Level:', stats.bestLevel);
     console.log('==================');
 });
+
+// 初始化帮助模态框
+function initHelpModal() {
+    const helpBtn = document.getElementById('helpBtn');
+    const helpModal = document.getElementById('helpModal');
+    const closeHelp = document.getElementById('closeHelp');
+
+    if (!helpBtn || !helpModal || !closeHelp) {
+        return;
+    }
+
+    // 打开帮助模态框
+    helpBtn.addEventListener('click', () => {
+        helpModal.classList.remove('hidden');
+    });
+
+    // 关闭帮助模态框
+    closeHelp.addEventListener('click', () => {
+        helpModal.classList.add('hidden');
+    });
+
+    // 点击模态框外部关闭
+    helpModal.addEventListener('click', (e) => {
+        if (e.target === helpModal) {
+            helpModal.classList.add('hidden');
+        }
+    });
+
+    // ESC键关闭
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !helpModal.classList.contains('hidden')) {
+            helpModal.classList.add('hidden');
+        }
+    });
+}
