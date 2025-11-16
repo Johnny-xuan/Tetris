@@ -263,7 +263,7 @@ h1 {
         0 4px 20px rgba(0, 0, 0, 0.3),
         0 0 30px var(--shadow-color),
         inset 0 0 15px rgba(255, 255, 255, 0.03);
-    min-width: 140px;
+    min-width: 180px;
     transition: all 0.3s ease;
     animation: float 6s ease-in-out infinite;
     position: relative;
@@ -374,8 +374,8 @@ canvas:hover {
 }
 
 #next, #hold {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
 }
 
 /* ===== 统计面板 ===== */
@@ -760,7 +760,7 @@ canvas:hover {
         min-width: auto;
         padding: 12px;
         flex: 1;
-        min-width: 120px;
+        min-width: 140px;
     }
 
     .panel-section:hover {
@@ -781,8 +781,8 @@ canvas:hover {
     }
 
     #tetris {
-        width: 240px;
-        height: 480px;
+        width: 300px;
+        height: 600px;
     }
 
     .gameOverContent {
@@ -807,13 +807,13 @@ canvas:hover {
     }
 
     #tetris {
-        width: 200px;
-        height: 400px;
+        width: 250px;
+        height: 500px;
     }
 
     #next, #hold {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
     }
 
     .stat-value {

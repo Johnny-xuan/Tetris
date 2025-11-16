@@ -1,5 +1,5 @@
 // 游戏常量定义
-export const BLOCK_SIZE = 24;
+export const BLOCK_SIZE = 30;
 export const WIDTH = 10;
 export const HEIGHT = 20;
 
